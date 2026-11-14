@@ -35,8 +35,9 @@
     border: 2px solid;
     border-color: #dfe2ed;
     color: #58585c;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
+    height: 25px;
     padding: 10px;
 }
 
@@ -51,8 +52,9 @@
     border: 2px solid;
     border-color: #dfe2ed;
     color: #58585c;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
+    height: 50px;
     padding: 10px;
 }
 
