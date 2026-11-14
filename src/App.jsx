@@ -16,8 +16,15 @@ function App(){
     const filteredTasks = (selectedTag === ""
         ? tasks
         : tasks.filter((item) => item.tag === selectedTag))
-    function deleteTask(num){
-        setTasks(tasks.filter((item) => item.num !== num))
+    function deleteTask(taskNum) {
+        const updatedTasks = tasks.filter((item) => item.num !== taskNum);
+
+        setTasks(updatedTasks.map((item, index) => ({
+            ...item,
+            num: index + 1
+        })));
+
+        setNum(updatedTasks.length + 1);
     }
 
     useEffect(() => {
@@ -121,7 +128,7 @@ function App(){
                         <div className="div">
                             <p className="p1">{item.num}. {item.task}</p> 
                             <p className="p2">{item.tag}</p>
-                            <button className="deletebutton" onClick={() => (deleteTask(item.num), setNum(num - 1))}> Delete</button>
+                            <button className="deletebutton" onClick={() => deleteTask(item.num)}> Delete</button>
                         </div>
                     </div>
                 ))}
