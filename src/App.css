@@ -123,6 +123,16 @@
     border-radius: 9px;
 }
 
+.deletebutton{
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    height: 40px;
+    width: 100px;
+}
+
 /* 
 * {
     box-sizing: border-box;

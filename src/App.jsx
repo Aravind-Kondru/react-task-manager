@@ -1,16 +1,32 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import "./App.css"
 
 function App(){
     const[task, setTask] = useState("")
-    const[tasks, setTasks] = useState([])
+    const[tasks, setTasks] = useState(() => {
+        const savedTasks = localStorage.getItem("tasks")
+        return savedTasks ? JSON.parse(savedTasks) : []
+    })
     const[Tag, setTag] = useState("")
-    const[heading, setHeading] = useState("No Tasks Added Yet")
-    const[num, setNum] = useState(1)
+    const[num, setNum] = useState(() => {
+        const savedNum = localStorage.getItem("num")
+        return savedNum ? JSON.parse(savedNum) : 1
+    })
     const[selectedTag, setSelectedTag] = useState("")
     const filteredTasks = (selectedTag === ""
         ? tasks
         : tasks.filter((item) => item.tag === selectedTag))
+    function deleteTask(num){
+        setTasks(tasks.filter((item) => item.num !== num))
+    }
+
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+    }, [tasks])
+
+    useEffect(() => {
+        localStorage.setItem("num", JSON.stringify(num))
+    }, [num])
 
     return(
         <div className="container-1">
@@ -45,7 +61,6 @@ function App(){
                     onClick={() => (
                         setTasks([...tasks, {num: num, task: task, tag: Tag}]),
                         setTask(""),
-                        setHeading(""),
                         setTag(""),
                         setNum(num + 1)
                 )}>
@@ -53,6 +68,8 @@ function App(){
                 </button>
 
                 <h2 className="h4">Tags</h2>
+                <button className="button" onClick={() => setSelectedTag("")}>All Tags</button>
+
                 <button className="button" onClick={() => {
                     if (selectedTag === "Health"){
                         setSelectedTag("")
@@ -97,13 +114,14 @@ function App(){
                 }}>Others</button>
 
                 <h2 className="h5">Tasks</h2>
-                <h1 className="h6">{heading}</h1>
+                {tasks.length === 0 && <h1 className="h6">No tasks available</h1>}
                 
                 {filteredTasks.map((item) => (
                     <div className="para" key={item.num}>
                         <div className="div">
                             <p className="p1">{item.num}. {item.task}</p> 
                             <p className="p2">{item.tag}</p>
+                            <button className="deletebutton" onClick={() => (deleteTask(item.num), setNum(num - 1))}> Delete</button>
                         </div>
                     </div>
                 ))}
